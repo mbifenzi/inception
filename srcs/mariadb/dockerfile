@@ -1,0 +1,11 @@
+FROM	debian:latest
+
+RUN apt update && apt upgrade -y
+RUN apt install mariadb-server mariadb-client
+RUN chown -R mysql: /var/lib/mysql
+RUN service mariadb start
+RUN mysql -u root -e "CREATE USER 'mbifenzi'@'localhost' IDENTIFIED BY '123456';"
+RUN mysql -u root -e "CREATE DATABASE mbifenzidb; use mbifenzidb; source /var/lib/mysql/mbifenzidb.sql;"
+RUN mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'mbifenzi'@'localhost';"
+RUN mysql -u root -e "FLUSH PRIVILEGES;"
+# CMD ["nginx", "-g", "daemon off;"]
