@@ -1,11 +1,21 @@
-FROM	debian:latest
+FROM	debian:buster
 
-RUN apt update && apt upgrade -y
-RUN apt install mariadb-server mariadb-client
-RUN chown -R mysql: /var/lib/mysql
-RUN service mariadb start
-RUN mysql -u root -e "CREATE USER 'mbifenzi'@'localhost' IDENTIFIED BY '123456';"
-RUN mysql -u root -e "CREATE DATABASE mbifenzidb; use mbifenzidb; source /var/lib/mysql/mbifenzidb.sql;"
-RUN mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'mbifenzi'@'localhost';"
-RUN mysql -u root -e "FLUSH PRIVILEGES;"
-# CMD ["nginx", "-g", "daemon off;"]
+RUN apt update
+RUN apt install mariadb-server -y
+# RUN chown -R mysql: /var/lib/mysql
+# RUN sleep 10
+# RUN 
+COPY ./script.sh /
+RUN chmod +x script.sh
+EXPOSE 3306
+
+# ENTRYPOINT sleep infinity
+
+ENTRYPOINT  mysqld_safe \
+            && mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${USER_PASSWORD}';" \
+            && mysql -u root -p${USER_PASSWORD} -e "FLUSH PRIVILEGES;" \
+            && mysql -u root -p${USER_PASSWORD} -e "use mysql; update user set user='${USER}' where user='root';" \
+            && mysql -u root -p${USER_PASSWORD} -e "FLUSH PRIVILEGES;" \
+           ; sleep infinity
+
+# CMD ["sh", "script.sh"]

@@ -1,16 +1,39 @@
 version: '3'
 
 services:
-    nginx:
-        build: ./srcs/nginx
-        image: mynginx
-        container_name : mynginx
-        restart: unless-stopped
-        ports: 
-            - 80:80
-            - 443:443
     mariadb:
-        build: ./srcs/mariadb
+        build: ./srcs/mariadb 
         image: mymariadb
         container_name : mymariadb
-        restart: unless-stopped
+        # restart: unless-stopped
+        # ports:
+        #     - "3306:3306"
+        env_file:
+            - .env
+        networks:
+            - wordpress
+        # volumes:
+        #     - /Users/mbifenzi/Desktop/1337/inception/srcs/volumes:/var/lib/mysql
+    # nginx:
+    #     build: ./srcs/nginx
+    #     image: mynginx
+    #     container_name : mynginx
+    #     restart: unless-stopped
+    #     ports:
+    #         - 443:443
+    #     networks:
+    #         - wordpress
+    # wordpress:
+    #     build: ./srcs/mariadb
+    #     image: mymariadb
+    #     depends_on:
+    #         - mariadb
+    #     container_name : mymariadb
+    #     restart: unless-stopped
+    #     ports:
+    #         - "9000"
+    #     network:
+    #         - wordpress
+networks:
+  wordpress:
+    driver: bridge
