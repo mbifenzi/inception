@@ -1,10 +1,20 @@
 FROM debian:buster
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update 
 RUN apt install -y curl gnupg2 ca-certificates lsb-release
 RUN apt install -y software-properties-common
-RUN add-apt-repository ppa:ondrej/php
-RUN apt install -y php7.4-fpm php7.4-common php7.4-mysql php7.4-gmp \ 
+RUN apt update
+RUN add-apt-repository -y ppa:ondrej/php
+# RUN cd /tmp \
+#     && curl -LO https://wordpress.org/latest.tar.gz && tar xzvf latest.tar.gz \
+#     && mkdir -p /var/www/html/ \
+#     && cp /tmp/wordpress /var/www/html/ \
+#     && chown -R www-data:www-data /var/www/html/wordpress
+RUN apt install -y php7.4-fpm php7.4-common php7.4-mysql php7.4-gmp \
     php7.4-curl php7.4-intl php7.4-mbstring php7.4-xmlrpc php7.4-gd \
-    php7.4-xml php7.4-cli php7.4-zip php7.4-soap php7.4-imap
-RUN mkdir -p /var/www/html/wordpress
-RUN chown -R www-data /usr/share/nginx/html/wordpress
+    php7.4-xml php7.4-cli php7.4-zip php7.4-soap php7.4-imap;
+# ENTRYPOINT cd /tmp \
+#            && curl -LO https://wordpress.org/latest.tar.gz && tar xzvf latest.tar.gz \
+#            &&  cp -a /tmp/wordpress/. /var/www/html/wordpress \
+#            &&  chown -R www-data:www-data /var/www/html/wordpress
+COPY wp-config.php ./var/www/html/wordpress/
+# RUN chown -R www-data /usr/share/nginx/html/wordpress
