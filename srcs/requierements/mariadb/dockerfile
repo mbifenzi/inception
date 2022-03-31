@@ -6,8 +6,9 @@ RUN apt install mariadb-server -y
 # RUN sleep 10
 # RUN 
 COPY ./script.sh /
-COPY my.cnf /etc/mysql/
+# COPY my.cnf /etc/mysql/
 RUN chmod +x script.sh
 RUN chmod +x /etc/mysql/my.cnf
+RUN sed -i 's|127.0.0.1|0.0.0.0|g' /etc/mysql/mariadb.conf.d/50-server.cnf
 EXPOSE 3306
 CMD ["sh", "script.sh"]
