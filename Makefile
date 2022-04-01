@@ -4,7 +4,7 @@ NAME = inception
 up: ${NAME}
 
 ${NAME}: ${SRC} 
-	docker-compose -f ${SRC} up -d --build
+	docker-compose -f ${SRC} up  --build
 down: 
 	docker-compose -f ${SRC} down
 rmi: 
