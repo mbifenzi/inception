@@ -6,6 +6,7 @@ RUN apt install mariadb-server -y
 # RUN sleep 10
 # RUN 
 COPY ./script.sh /
+COPY ./wp.sql /
 # COPY my.cnf /etc/mysql/
 RUN chmod +x script.sh
 RUN chmod +x /etc/mysql/my.cnf
