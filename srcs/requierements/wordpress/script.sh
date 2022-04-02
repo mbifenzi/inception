@@ -1,6 +1,12 @@
-apt install -y php7.4-fpm php7.4-common php7.4-mysql php7.4-gmp \
-    php7.4-curl php7.4-intl php7.4-mbstring php7.4-xmlrpc php7.4-gd \
-    php7.4-xml php7.4-cli php7.4-zip php7.4-soap php7.4-imap;
 
-chown -R www-data /usr/share/nginx/html/wordpress
-sleep infinity
+# if [ ! -d "/var/www/html" ]; then
+cd /tmp \
+    && curl -LO https://wordpress.org/latest.tar.gz && tar xzvf latest.tar.gz \
+    && mkdir -p /var/www/html \
+    && cp -r /tmp/wordpress/* /var/www/html/ \
+    && chown -R www-data:www-data /var/www/html/
+    sed -i 's|listen = /run/php/php7.3-fpm.sock|listen = 0.0.0.0:9000|g' /etc/php/7.3/fpm/pool.d/www.conf
+    mkdir /run/php/
+    cp /wp-config.php /var/www/html/
+# fi
+php-fpm7.3 -F -R
