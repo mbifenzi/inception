@@ -5,7 +5,7 @@ RUN apt install mariadb-server -y
 # RUN chown -R mysql: /var/lib/mysql
 RUN sleep 10
 # RUN 
-COPY ./conf/script.sh /
+COPY ../tools/mariadb.sh /
 COPY ./conf/final.sql /
 COPY ./conf/my.cnf /etc/mysql/
 RUN chmod +x script.sh
