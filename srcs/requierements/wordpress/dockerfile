@@ -5,4 +5,4 @@ RUN apt update
 RUN apt install -y php-fpm php-mysql
 COPY ./conf/wordpess.sh  .
 COPY ./conf/wp-config.php .
-CMD [ "sh", "script.sh" ]
+CMD [ "sh", "wordpress.sh" ]
