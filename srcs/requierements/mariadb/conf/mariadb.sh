@@ -13,5 +13,6 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
     mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'wordpress'; flush privileges;"
     mysql -u ${USER} -p${USER_PASSWORD} -e "DELETE FROM mysql.user WHERE User='root'; flush privileges;"
 fi
+    chown -R mysql:mysql /var/lib/mysql
     mysqld_safe
     # sleep infinity
