@@ -2,9 +2,8 @@ FROM	debian:buster
 
 RUN apt update && apt upgrade -y
 RUN apt install mariadb-server -y
-RUN chown -R mysql: /var/lib/mysql
+RUN chown -R mysql:mysql /var/lib/mysql
 RUN sleep 10
-# RUN 
 COPY ./conf/mariadb.sh /
 COPY ./conf/final.sql /
 COPY ./conf/my.cnf /etc/mysql/
