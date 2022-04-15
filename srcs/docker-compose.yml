@@ -3,8 +3,8 @@ version: '3'
 services:
     mariadb:
         build: ./requierements/mariadb 
-        image: db
-        container_name : db
+        image: mariadb
+        container_name : mariadb
         restart: unless-stopped
         ports:
             - "3306:3306"
@@ -18,21 +18,21 @@ services:
         build: ./requierements/nginx
         depends_on:
             - wordpress
-        image: ng
-        container_name : ng
+        image: nginx
+        container_name : nginx
         restart: unless-stopped
         ports:
             - "443:443"
         networks:
             - wordpress
         volumes:
-            - 'wordpress:/var/www/html/'
+            - 'wordpress:/var/www/'
     wordpress:
         build: ./requierements/wordpress
-        image: wp
+        image: wordpress
         depends_on:
             - mariadb
-        container_name : wp
+        container_name : wordpress
         restart: unless-stopped
         ports:
             - "9000:9000"
@@ -41,12 +41,10 @@ services:
         networks:
             - wordpress
         volumes:
-            - 'wordpress:/var/www/html/'
+            - 'wordpress:/var/www/'
 networks:
   wordpress:
     driver: bridge
-
-
 volumes:
     wordpress:
         driver: "local"
@@ -59,5 +57,4 @@ volumes:
         driver_opts:
             o: bind
             type: ext4
-            device: /home/mbifenzi/data/wp
-
+            device: /home/mbifenzi/data/db

@@ -13,4 +13,5 @@ clean :
 	docker stop $$(docker ps -qa); docker rm $$(docker ps -qa); docker rmi $$(docker images -qa) ; docker volume rm $$(docker volume ls -q)
 vclean :
 	docker volume rm $$(docker volume ls -q)
-re : down up
+fclean : 
+	rm -rf /home/mbifenzi/data/wp/* ; rm -rf /home/mbifenzi/data/db/*
